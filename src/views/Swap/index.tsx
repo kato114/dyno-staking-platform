@@ -26,16 +26,6 @@ export default function Swap() {
     setUserChartPreference(isChartDisplayed)
   }, [isChartDisplayed, setUserChartPreference])
 
-  const { chainId } = useActiveWeb3React()
-
-  // swap state & price data
-  const {
-    [Field.INPUT]: { currencyId: inputCurrencyId },
-    [Field.OUTPUT]: { currencyId: outputCurrencyId },
-  } = useSwapState()
-
-  const isAccessTokenSupported = useMemo(() => ACCESS_TOKEN_SUPPORT_CHAIN_IDS.includes(chainId), [chainId])
-
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
       <Flex width="100%" justifyContent="center" position="relative">
@@ -43,11 +33,6 @@ export default function Swap() {
           <StyledSwapContainer $isChartExpanded={isChartExpanded}>
             <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
               <AppBody>
-                <SwapForm
-                  isAccessTokenSupported={isAccessTokenSupported}
-                  setIsChartDisplayed={setIsChartDisplayed}
-                  isChartDisplayed={isChartDisplayed}
-                />
               </AppBody>
             </StyledInputCurrencyWrapper>
           </StyledSwapContainer>

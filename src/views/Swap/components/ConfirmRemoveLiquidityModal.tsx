@@ -11,7 +11,6 @@ import { RowBetween, RowFixed } from 'components/Layout/Row'
 import { Field } from 'state/burn/actions'
 import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
 import { ApprovalState } from 'hooks/useApproveCallback'
-import { ZapErrorMessages } from '../../AddLiquidity/components/ZapErrorMessage'
 
 interface ConfirmRemoveLiquidityModalProps {
   title: string
@@ -148,9 +147,6 @@ const ConfirmRemoveLiquidityModal: React.FC<
     () =>
       liquidityErrorMessage ? (
         <>
-          {isZap && (
-            <ZapErrorMessages isSingleToken zapMode={isZap} toggleZapMode={toggleZapMode} onModalDismiss={onDismiss} />
-          )}
           <TransactionErrorContent onDismiss={onDismiss} message={liquidityErrorMessage} />
         </>
       ) : (

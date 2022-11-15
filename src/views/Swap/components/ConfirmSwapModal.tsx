@@ -8,7 +8,6 @@ import ConfirmationPendingContent from './ConfirmationPendingContent'
 import TransactionConfirmSwapContent from './TransactionConfirmSwapContent'
 import ConfirmSwapModalContainer from './ConfirmSwapModalContainer'
 import useTranslation from '../../../../packages/localization/src/useTranslation'
-import { StableTrade } from '../StableSwap/hooks/useStableTradeExactIn'
 
 const PancakeRouterSlippageErrorMsg =
   'This transaction will not succeed either due to price movement or fee on transfer. Try increasing your slippage tolerance.'
@@ -51,8 +50,8 @@ const SwapTransactionErrorContent = ({ onDismiss, message, openSettingModal }) =
 }
 
 interface ConfirmSwapModalProps {
-  trade?: Trade<Currency, Currency, TradeType> | StableTrade
-  originalTrade?: Trade<Currency, Currency, TradeType> | StableTrade
+  trade?: Trade<Currency, Currency, TradeType> 
+  originalTrade?: Trade<Currency, Currency, TradeType> 
   currencyBalances: { [field in Field]?: CurrencyAmount<Currency> }
   attemptingTxn: boolean
   txHash?: string

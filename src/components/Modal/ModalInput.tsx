@@ -66,7 +66,7 @@ const ModalInput: React.FC<React.PropsWithChildren<ModalInputProps>> = ({
     }
 
     const balanceUnits = parseUnits(balance, decimals)
-    return formatBigNumber(balanceUnits, decimals, decimals)
+    return formatBigNumber(balanceUnits, 3, decimals)
   }
 
   return (

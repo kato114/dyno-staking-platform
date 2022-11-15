@@ -37,5 +37,6 @@ export const ActionContent = styled.div`
 
   ${({ theme }) => theme.mediaQueries.sm} {
     flex-direction: row;
+    justify-content: space-between;
   }
 `

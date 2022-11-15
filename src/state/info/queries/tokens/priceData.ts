@@ -1,7 +1,6 @@
 import { getUnixTime } from 'date-fns'
 import { gql } from 'graphql-request'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
-import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
 import { PriceChartEntry } from 'state/info/types'
 import orderBy from 'lodash/orderBy'
 import { MultiChainName, multiChainQueryMainToken, multiChainQueryEndPoint } from '../../constant'
@@ -55,14 +54,7 @@ const fetchTokenPriceData = async (
       }
     }
 
-    const prices: any | undefined = await multiQuery(
-      priceQueryConstructor,
-      getPriceSubqueries(chainName, address, blocks),
-      multiChainQueryEndPoint[chainName],
-      200,
-    )
-
-    console.warn('fetchTokenPriceData', { chainName, prices })
+    const prices = undefined
 
     if (!prices) {
       console.error('Price data failed to load')

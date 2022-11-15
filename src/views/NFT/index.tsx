@@ -337,7 +337,7 @@ export default function NFTDetail(props) {
                     {mintPrice} DND
                   </Heading>
                   <Heading as="h6" textAlign="right" style={{ fontStyle: 'italic', color: 'gray' }}>
-                    ${dndPriceUSD * mintPrice}
+                    ${(dndPriceUSD * mintPrice).toFixed(3)}
                   </Heading>
                 </Flex>
               </Flex>
@@ -358,7 +358,7 @@ export default function NFTDetail(props) {
                     {rewardPrice} DND
                   </Heading>
                   <Heading as="h6" textAlign="right" style={{ fontStyle: 'italic', color: 'gray' }}>
-                    ${dndPriceUSD * rewardPrice}
+                    ${(dndPriceUSD * rewardPrice).toFixed(3)}
                   </Heading>
                 </Flex>
               </Flex>

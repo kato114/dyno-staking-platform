@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Text from "../Text/Text";
 import Skeleton from "../Skeleton/Skeleton";
 import { Colors } from "../../theme";
-import Logo from "./Logo";
 
 export interface Props {
   color?: keyof Colors;

@@ -2,16 +2,15 @@ import { SerializedWrappedToken } from '@pancakeswap/tokens'
 import BigNumber from 'bignumber.js'
 
 export type FarmsDynamicDataResult = {
-  tokenAmountTotal: string
-  quoteTokenAmountTotal: string
-  lpTotalSupply: string
-  lpTotalInQuoteToken: string
-  tokenPriceVsQuote: string
-  poolWeight: string
-  multiplier: string
+  tokenAmountTotal?: string
+  quoteTokenAmountTotal?: string
+  lpTotalSupply?: string
+  lpTotalInQuoteToken?: string
+  tokenPriceVsQuote?: string
+  poolWeight?: string
+  multiplier?: string
 }
 export type FarmData = SerializedFarmConfig & FarmsDynamicDataResult
-
 export interface FarmConfigBaseProps {
   pid: number
   v1pid?: number

@@ -59,6 +59,8 @@ const deserializeFarm = (farm: SerializedFarm): DeserializedFarm => {
       auctionHostingEndDate.getTime() > now
     )
 
+  const numberRewardPerBlock = parseInt(rewardPerBlock, 10);
+
   return {
     lpAddress,
     lpSymbol,
@@ -82,7 +84,7 @@ const deserializeFarm = (farm: SerializedFarm): DeserializedFarm => {
     poolWeight: farm.poolWeight ? new BigNumber(farm.poolWeight) : BIG_ZERO,
     boosted,
     isStable: Boolean(infoStableSwapAddress),
-    rewardPerBlock,
+    rewardPerBlock: numberRewardPerBlock,
     vestingTime,
     stakedAmount,
   }

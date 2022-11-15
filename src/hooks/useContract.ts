@@ -1,11 +1,10 @@
-import { Cake, Erc20, Erc20Bytes32, Erc721collection, Multicall, Weth } from 'config/abi/types'
+import { Erc20, Erc20Bytes32, Erc721collection, Multicall, Weth } from 'config/abi/types'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useProviderOrSigner } from 'hooks/useProviderOrSigner'
 import { useMemo } from 'react'
 import { getMulticallAddress } from 'utils/addressHelpers'
 import {
   getBep20Contract,
-  getCakeContract,
   getErc721CollectionContract,
   getErc721Contract,
   getMasterchefContract,
@@ -23,7 +22,6 @@ import WETH_ABI from '../config/abi/weth.json'
 import { getContract } from '../utils'
 
 import { IPancakePair } from '../config/abi/types/IPancakePair'
-import { VaultKey } from '../state/types'
 import { useActiveChainId } from './useActiveChainId'
 
 /**
@@ -41,17 +39,6 @@ export const useERC20 = (address: string, withSignerIfPossible = true) => {
 export const useERC721 = (address: string, withSignerIfPossible = true) => {
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getErc721Contract(address, providerOrSigner), [address, providerOrSigner])
-}
-
-export const useCake = (): { reader: Cake; signer: Cake } => {
-  const providerOrSigner = useProviderOrSigner()
-  return useMemo(
-    () => ({
-      reader: getCakeContract(null),
-      signer: getCakeContract(providerOrSigner),
-    }),
-    [providerOrSigner],
-  )
 }
 
 export const useMasterchef = (withSignerIfPossible = true) => {
@@ -73,9 +60,6 @@ export const useErc721CollectionContract = (
   )
 }
 
-// Code below migrated from Exchange useContract.ts
-
-// returns null on errors
 export function useContract<T extends Contract = Contract>(
   address: string | undefined,
   ABI: any,
