@@ -1,16 +1,15 @@
 import { parseUnits } from '@ethersproject/units'
 import { ChainId, WDND } from '@pancakeswap/sdk'
-import { InjectedModalProps, useToast } from '@pancakeswap/uikit'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useContract, useTokenContract } from 'hooks/useContract'
 import useTheme from 'hooks/useTheme'
 import { useState } from 'react'
+import styled from 'styled-components'
+import { InjectedModalProps, useToast, Modal } from '@pancakeswap/uikit'
 import ApproveAndConfirmStage from '../components/BuySellModals/shared/ApproveAndConfirmStage'
 import ConfirmStage from '../components/BuySellModals/shared/ConfirmStage'
-import styled from 'styled-components'
 
-import { Modal } from '@pancakeswap/uikit'
 import { NftContractInfo } from '../contractInfo/nftContractABI'
 import { useNFTContract } from '../hook'
 
@@ -25,12 +24,13 @@ interface MintModalProps extends InjectedModalProps {
 }
 
 const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDismiss }) => {
-  const { toastSuccess } = useToast()
+  const { toastSuccess, toastWarning } = useToast()
   const wDNDContract = useTokenContract(WDND[ChainId.DYNO].address, true)
   const [mintAmount, setMintAmount] = useState(1)
   const { theme } = useTheme()
 
   const { mintPrice, allowance } = useNFTContract({ id })
+  const mintType = true
 
   const nftContract = useContract(NftContractInfo.address, NftContractInfo.abi, true)
 
@@ -59,11 +59,18 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
     },
   })
 
-  const goBack = () => {}
+  const handleMint = () => {
+    if (mintAmount < 1 || mintAmount > 5) {
+      toastWarning('Input mint amount correctly. Mint amount must be between 1 and 5.')
+      return true
+    }
+
+    return handleConfirm()
+  }
 
   return (
     <StyledModal title={'Mint NFT'} onDismiss={onDismiss} headerBackground={theme.colors.gradientCardHeader}>
-      {allowance == 0 && (
+      {allowance === 0 && (
         <ApproveAndConfirmStage
           variant="Mint"
           handleApprove={handleApprove}
@@ -75,12 +82,13 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
           setMint={setMintAmount}
         />
       )}
-      {allowance != 0 && (
+      {allowance !== 0 && (
         <ConfirmStage
           isConfirming={isConfirming}
-          handleConfirm={handleConfirm}
+          handleConfirm={handleMint}
           mintAmount={mintAmount}
           setMint={setMintAmount}
+          mintType={mintType}
         />
       )}
     </StyledModal>

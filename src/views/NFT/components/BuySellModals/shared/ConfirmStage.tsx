@@ -6,6 +6,7 @@ interface ConfirmStageProps {
   handleConfirm: () => void
   mintAmount?: number
   setMint?: any
+  mintType?: boolean
 }
 
 // Buy Flow:
@@ -18,12 +19,13 @@ const ConfirmStage: React.FC<React.PropsWithChildren<ConfirmStageProps>> = ({
   handleConfirm,
   mintAmount,
   setMint,
+  mintType,
 }) => {
   const { t } = useTranslation()
 
   return (
     <Flex p="30px" flexDirection="column">
-      {mintAmount && (
+      {mintType && (
         <Flex flexDirection="column" marginBottom={'20px'}>
           <Text fontSize="20px" bold color="secondary" mb="10px">
             Mint Amount

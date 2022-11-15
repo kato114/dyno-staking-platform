@@ -83,7 +83,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
 export const NetworkSwitcher = () => {
   const { t } = useTranslation()
   const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
-  const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
+  const { pendingChainId, isLoading, switchNetworkAsync } = useSwitchNetwork()
   const router = useRouter()
   const { account } = useWeb3React()
 
@@ -94,12 +94,9 @@ export const NetworkSwitcher = () => {
     [isLoading, pendingChainId, chainId],
   )
   const symbol = NATIVE[foundChain?.id]?.symbol ?? foundChain?.nativeCurrency?.symbol
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    t('Unable to switch network. Please try it on your wallet'),
-    { placement: 'auto' },
-  )
+  const { targetRef } = useTooltip(t('Unable to switch network. Please try it on your wallet'), { placement: 'auto' })
 
-  const cannotChangeNetwork = false
+  const cannotChangeNetwork = true
 
   if (!chainId || (!account && router.pathname.includes('info'))) {
     return null
@@ -107,7 +104,6 @@ export const NetworkSwitcher = () => {
 
   return (
     <Box ref={cannotChangeNetwork ? targetRef : null} height="100%">
-      {cannotChangeNetwork && tooltipVisible && tooltip}
       <UserMenu
         mr="8px"
         placement="bottom"

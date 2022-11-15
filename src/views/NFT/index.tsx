@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import styled from 'styled-components'
 import { Heading, Text, Button, Flex, LinkExternal, useModal } from '@pancakeswap/uikit'
 import { dyno } from '@pancakeswap/wagmi/chains'
@@ -177,6 +178,7 @@ const DropDetailDescription = styled.div`
 `
 
 export default function NFTDetail(props) {
+  const { account } = useActiveWeb3React()
   const PRECISION = 1000000
   const { nft_id } = props
 
@@ -199,7 +201,6 @@ export default function NFTDetail(props) {
   const leftMonth = Math.floor(timeDiff / 1000 / 84000 / 30)
   const leftDays = Math.floor(Math.floor(timeDiff % (1000 * 84000 * 30)) / 1000 / 84000)
   const leftDate = leftMonth ? leftMonth + 'Months ' + leftDays + 'Days' : '' + leftDays + 'Days'
-
   const { APR, APY } = useRewardPercent({ id: nft_id })
 
   const { NFTDataJson } = useTokenURI({ id: nft_id })
@@ -216,13 +217,17 @@ export default function NFTDetail(props) {
   useEffect(() => {
     setReward(pendingReward)
     setDndPrice(dndPriceUSD)
-  }, [rewardPrice, dndPriceUSD])
+  }, [rewardPrice, pendingReward, dndPriceUSD])
 
   useEffect(() => {
     if (NFTDataJson != '') {
       getMoviesFromApiAsync(NFTDataJson)
     }
   }, [NFTDataJson])
+
+  // useEffect(() => {
+  //   { stakedNftIDs } = useStakingContract({ id: nft_id })
+  // }, [account])
 
   // ----------------------------get Contract end--------------------------------
 
@@ -413,7 +418,7 @@ export default function NFTDetail(props) {
             <ActionContainer>
               <div>
                 <h5>NFT DEPOSITED</h5>
-                {getStakedNFTIDs().length == 0 && <Text mt="5px">There is no deTextosited NFT</Text>}
+                {getStakedNFTIDs().length == 0 && <Text mt="5px">There is no deposited NFT</Text>}
                 {getStakedNFTIDs().length != 0 && (
                   <Text mt="5px">There are {getStakedNFTIDs().length} deposited NFT</Text>
                 )}
@@ -437,7 +442,7 @@ export default function NFTDetail(props) {
               <div>
                 <h5>DND EARNED</h5>
                 <Text mt="5px">
-                  {reward} DND | ${reward * dndPrice}
+                  {reward} DND | ${(reward * dndPrice).toFixed(3)}
                 </Text>
               </div>
               <div>
