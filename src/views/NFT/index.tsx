@@ -1,0 +1,471 @@
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { Heading, Text, Button, Flex, LinkExternal, useModal } from '@pancakeswap/uikit'
+import { dyno } from '@pancakeswap/wagmi/chains'
+import axios from 'axios'
+import { ChevronDownIcon } from '@pancakeswap/uikit'
+import { NftContractInfo } from './contractInfo/nftContractABI'
+import { useNFTContract, usePriceDNDBusd, useStakingContract, useRewardPercent, useTokenURI } from './hook'
+import MintModal from './Modal/MintModal'
+import HarvestModal from './Modal/HarvestModal'
+import StakedModal from './Modal/StakedModal'
+import SelectNFTModal from './Modal/SelectNFTModal'
+
+const FlexBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+`
+
+const NFTDetailConntainer = styled.div`
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 120px;
+  color: #fff;
+
+  h1 {
+    font-size: 65px;
+    line-height: 77px;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    color: #cacfdb;
+    margin-bottom: 7px !important;
+  }
+
+  h5 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  h6 {
+    font-size: 12px;
+    font-weight: 400;
+  }
+`
+
+const NFTMainDetail = styled(Flex)`
+  border-radius: 22px;
+  padding: 40px 0px;
+  margin: 50px 29px;
+  align-items: center;
+  gap: '30px';
+`
+
+const NFTImageContainer = styled.div`
+  max-width: 100%;
+  width: 100%;
+  padding: 0px 16px 16px 16px;
+  img {
+    border-radius: 16px;
+  }
+`
+
+const DescriptionContainer = styled.div`
+  max-width: 100%;
+  width: 100%;
+  padding-left: 29px;
+  padding-right: 29px;
+  margin-bottom: 25px !important;
+`
+
+const PriceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 44px !important;
+  margin-bottom: 64px !important;
+  gap: 20px;
+`
+
+const ActionButtons = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  width: 100%;
+
+  margin-top: 30px !important;
+`
+
+const NFTDetailInfo = styled.div`
+  display: flex;
+`
+const NFTDrop = styled.div`
+  width: 100%;
+  padding-left: 29px;
+  padding-right: 29px;
+  margin-bottom: 30px;
+`
+
+const NFTAction = styled.div`
+  width: 100%;
+  padding-left: 29px;
+  padding-right: 29px;
+  margin-bottom: 30px;
+`
+const ActionContainer = styled.div`
+  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  border: 1px solid ${({ theme }) => theme.colors.backgroundAlt2};
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    flex-direction: row;
+  }
+
+  * > button {
+    width: 100%;
+  }
+`
+
+const DetailContainer = styled.div`
+  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  border: 1px solid ${({ theme }) => theme.colors.backgroundAlt2};
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+`
+
+const StyledLinkExternal = styled(LinkExternal)`
+  color: rgb(202, 207, 219);
+  font-weight: 500;
+  margin-top: 5px;
+`
+
+const ArrowIcon = styled(ChevronDownIcon)<{ toggled: boolean }>`
+  transform: ${({ toggled }) => (toggled ? 'rotate(0)' : 'rotate(-90deg)')};
+  height: 20px;
+`
+
+const DropTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 20px;
+  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  border: 1px solid ${({ theme }) => theme.colors.backgroundAlt2};
+`
+
+const DropDetailItem = styled.div``
+
+const DropDetailDescription = styled.div`
+  padding: 16px;
+  a {
+    color: #65ff65;
+  }
+  background-color: ${({ theme }) => theme.colors.backgroundAlt2};
+  border: 1px solid ${({ theme }) => theme.colors.backgroundAlt};
+`
+
+export default function NFTDetail(props) {
+  const PRECISION = 1000000
+  const { nft_id } = props
+
+  const [nftDetail, setNFTDetail] = useState({
+    description: 'Dyno Golden Robot',
+    image: '/images/nfts/nft_' + nft_id + '.jpg',
+    name: 'Dyno Golden Robot',
+  })
+
+  const dndPriceUSD = Number(usePriceDNDBusd().toString())
+  const { mintPrice, maxMintAmount, curMintAmount, nftName, tokensOfHolder } = useNFTContract({ id: nft_id })
+  const { rewardPrice, pendingReward, stakedNftIDs, endTime, leftPoolTime } = useStakingContract({ id: nft_id })
+
+  const [reward, setReward] = useState(pendingReward)
+  const [dndPrice, setDndPrice] = useState(dndPriceUSD)
+
+  const time = new Date(endTime * 1000)
+  const now = new Date()
+  const timeDiff = time.getTime() - now.getTime()
+  const leftMonth = Math.floor(timeDiff / 1000 / 84000 / 30)
+  const leftDays = Math.floor(Math.floor(timeDiff % (1000 * 84000 * 30)) / 1000 / 84000)
+  const leftDate = leftMonth ? leftMonth + 'Months ' + leftDays + 'Days' : '' + leftDays + 'Days'
+
+  const { APR, APY } = useRewardPercent({ id: nft_id })
+
+  const { NFTDataJson } = useTokenURI({ id: nft_id })
+
+  const getMoviesFromApiAsync = async (imageJson) => {
+    try {
+      const response = await axios.get(imageJson)
+      setNFTDetail(response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    setReward(pendingReward)
+    setDndPrice(dndPriceUSD)
+  }, [rewardPrice, dndPriceUSD])
+
+  useEffect(() => {
+    if (NFTDataJson != '') {
+      getMoviesFromApiAsync(NFTDataJson)
+    }
+  }, [NFTDataJson])
+
+  // ----------------------------get Contract end--------------------------------
+
+  const getStakedNFTIDs = () => {
+    if (!stakedNftIDs) return []
+    return stakedNftIDs[0]
+  }
+
+  const [collapse, setCollapse] = useState(0)
+
+  const nftDropDetail = [
+    {
+      title: 'Detail',
+      data: (
+        <DropDetailDescription>
+          <p>Dyno NFTs are limited editions.</p>
+          <br />
+          <p>
+            They can be purchased (minted) by paying one or more tokens. This will happen automatically when you confirm
+            the Mint transaction.
+          </p>
+          <br />
+          <p>
+            Each Dyno NFT can be used to farm DND rewards over a set period of time. After the end of the farm, rewards
+            stop.
+          </p>
+          <br />
+          <p>
+            You can withdraw your NFT anytime and send it to other addresses or sell it. An official Liquidus
+            marketplace is under development.
+          </p>
+          <br />
+        </DropDetailDescription>
+      ),
+    },
+    {
+      title: 'Creator',
+      data: (
+        <DropDetailDescription>
+          <Flex style={{ fontSize: '20px', alignItems: 'center' }}>
+            <img src="/images/chains/7364.png" />
+            <p style={{ marginLeft: '16px' }}>Dyno</p>
+          </Flex>
+        </DropDetailDescription>
+      ),
+    },
+    {
+      title: 'Additional information',
+      data: (
+        <DropDetailDescription>
+          <p>Read more here:</p>
+          <br />
+          <p>
+            <a href="https://docs.dynochain.io/dyno/dyno">docs.dynochain.io</a>
+          </p>
+          <br />
+          {/* <p>or see our:</p><br />
+        <a href='#'>FAQs</a><br /> */}
+        </DropDetailDescription>
+      ),
+    },
+  ]
+
+  const getOwnedNFT = () => {
+    if (tokensOfHolder == undefined) return null
+    if (tokensOfHolder.length == 0) return null
+
+    for (let item of tokensOfHolder[0]) {
+      if (Math.floor(item / PRECISION) === nft_id) {
+        return item
+      }
+    }
+    return null
+  }
+
+  const [open, setOpen] = useState(false)
+
+  const onDismiss = () => {
+    setOpen(false)
+  }
+
+  const [onMintModalHandler] = useModal(<MintModal id={nft_id} />)
+
+  const [onHarvestModalHandler] = useModal(<HarvestModal id={nft_id} setReward={setReward} />)
+
+  const [onShowStakedNFTHandler] = useModal(<StakedModal id={nft_id} img={nftDetail.image} name={nftDetail.name} />)
+
+  const [onShowNFTSelectHandler] = useModal(<SelectNFTModal id={nft_id} img={nftDetail.image} name={nftDetail.name} />)
+
+  return (
+    <>
+      <NFTDetailConntainer>
+        <NFTMainDetail flexDirection={['column', null, null, 'row']} mt="40px">
+          <NFTImageContainer>
+            <img src={nftDetail.image} width="100%" />
+          </NFTImageContainer>
+          <DescriptionContainer>
+            <Heading scale="xl" textAlign="center">
+              {nftDetail.name}
+            </Heading>
+            <Heading as="h4" scale="md" textAlign="center" style={{ lineHeight: '2rem', fontWeight: '500' }}>
+              {curMintAmount + '/' + maxMintAmount} limited edition NFT
+            </Heading>
+
+            <PriceContainer>
+              <Flex justifyContent="space-between">
+                <Heading as="h4" scale="md">
+                  Price to mint
+                </Heading>
+                <Flex flexDirection="column" alignItems="end">
+                  <Heading as="h4" textAlign="right">
+                    {mintPrice} DND
+                  </Heading>
+                  <Heading as="h6" textAlign="right" style={{ fontStyle: 'italic', color: 'gray' }}>
+                    ${dndPriceUSD * mintPrice}
+                  </Heading>
+                </Flex>
+              </Flex>
+              <Flex justifyContent="space-between">
+                <Heading as="h4" scale="md">
+                  APY
+                </Heading>
+                <Heading as="h4" textAlign="right">
+                  {APY}%
+                </Heading>
+              </Flex>
+              <Flex justifyContent="space-between">
+                <Heading as="h4" scale="md">
+                  Total Rewards
+                </Heading>
+                <Flex flexDirection="column" alignItems="end">
+                  <Heading as="h4" textAlign="right">
+                    {rewardPrice} DND
+                  </Heading>
+                  <Heading as="h6" textAlign="right" style={{ fontStyle: 'italic', color: 'gray' }}>
+                    ${dndPriceUSD * rewardPrice}
+                  </Heading>
+                </Flex>
+              </Flex>
+              <Flex justifyContent="center">
+                <Heading as="h6" style={{ fontStyle: 'italic' }}>
+                  Ends {time.toString().substring(4, 15)} ({leftDate})
+                </Heading>
+              </Flex>
+            </PriceContainer>
+
+            <ActionButtons>
+              <Button width={220} height={50} style={{ maxWidth: '45%' }} onClick={(e) => onMintModalHandler()}>
+                Mint artwork
+              </Button>
+              <Button
+                width={220}
+                height={50}
+                style={{ maxWidth: '45%' }}
+                onClick={(e) => onShowNFTSelectHandler()}
+                disabled={getOwnedNFT() == null}
+              >
+                Farm NFT
+              </Button>
+            </ActionButtons>
+          </DescriptionContainer>
+        </NFTMainDetail>
+
+        <Flex flexDirection={['column-reverse', null, null, 'row']}>
+          <NFTDrop>
+            <div>
+              {nftDropDetail.map((item, index) => (
+                <DropDetailItem key={item.title}>
+                  <DropTitle
+                    onClick={() => {
+                      if (collapse === index) setCollapse(-1)
+                      else setCollapse(index)
+                    }}
+                  >
+                    <h3>{item.title}</h3>
+                    <ArrowIcon
+                      color="white"
+                      toggled={collapse == index}
+                      style={{ border: '1px solid', borderRadius: '50px', width: '26px', height: '26px' }}
+                    />
+                  </DropTitle>
+                  {index == collapse && <>{item.data}</>}
+                </DropDetailItem>
+              ))}
+            </div>
+          </NFTDrop>
+          <NFTAction>
+            <ActionContainer>
+              <div>
+                <h5>NFT DEPOSITED</h5>
+                {getStakedNFTIDs().length == 0 && <Text mt="5px">There is no deTextosited NFT</Text>}
+                {getStakedNFTIDs().length != 0 && (
+                  <Text mt="5px">There are {getStakedNFTIDs().length} deposited NFT</Text>
+                )}
+                <Text mt="5px">
+                  Token ID range of this farm: {PRECISION * nft_id + 1} - {PRECISION * nft_id + 1 * maxMintAmount}
+                </Text>
+
+                <StyledLinkExternal
+                  href={`${dyno.blockExplorers.default.url}/address/${NftContractInfo.address}`}
+                  color="#cacfdb"
+                >
+                  View Contract
+                </StyledLinkExternal>
+              </div>
+              <div>
+                <Button onClick={(e) => onShowStakedNFTHandler()}>+</Button>
+              </div>
+            </ActionContainer>
+
+            <ActionContainer>
+              <div>
+                <h5>DND EARNED</h5>
+                <Text mt="5px">
+                  {reward} DND | ${reward * dndPrice}
+                </Text>
+              </div>
+              <div>
+                <Button onClick={(e) => onHarvestModalHandler()}>Harvest</Button>
+              </div>
+            </ActionContainer>
+
+            <DetailContainer>
+              <FlexBetween>
+                <Text mt="5px">Number of NFTs Deposited</Text>
+                <Text mt="5px">{getStakedNFTIDs().length}</Text>
+              </FlexBetween>
+              <FlexBetween>
+                <Text mt="5px">Yearly Rewards per NFT</Text>
+                <Text mt="5px">{rewardPrice} DND</Text>
+              </FlexBetween>
+              <FlexBetween>
+                <Text mt="5px">APR</Text>
+                <Text mt="5px">{APR}%</Text>
+              </FlexBetween>
+              <FlexBetween>
+                <Text mt="5px">End Date</Text>
+                <Text mt="5px">{time.toString().substring(4, 15)}</Text>
+              </FlexBetween>
+            </DetailContainer>
+          </NFTAction>
+        </Flex>
+      </NFTDetailConntainer>
+    </>
+  )
+}

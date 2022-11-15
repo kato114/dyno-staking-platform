@@ -1,0 +1,49 @@
+{
+  "name": "DynoChain Staking Default List",
+  "timestamp": "2022-01-26T11:45:09Z",
+  "version": {
+    "major": 4,
+    "minor": 0,
+    "patch": 0
+  },
+  "tags": {},
+  "logoURI": "https://pancakeswap.finance/logo.png",
+  "keywords": [
+    "pancake",
+    "default"
+  ],
+  "tokens": [
+    {
+      "name": "Wrapped DND",
+      "symbol": "WDND",
+      "address": "0xB2cD91b79df296ea181AA5f6d729E5136e1853A4",
+      "chainId": 7364,
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0xB2cD91b79df296ea181AA5f6d729E5136e1853A4.png"
+    },
+    {
+      "name": "Dyno USD",
+      "symbol": "DUSD",
+      "address": "0xBE3735517eB0C286E581A54f802D1218cFE781fD",
+      "chainId": 7364,
+      "decimals": 18,
+      "logoURI": "/images/tokens/7364/0xBE3735517eB0C286E581A54f802D1218cFE781fD.png"
+    },
+    {
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "address": "0xd90656E356eD222c8B70a84cFCd5F9b2C6218CE0",
+      "chainId": 7364,
+      "decimals": 18,
+      "logoURI": "/images/tokens/7364/0xd90656E356eD222c8B70a84cFCd5F9b2C6218CE0.png"
+    },
+    {
+      "name": "TruiumSwap",
+      "symbol": "TRU",
+      "address": "0x82572A0b69D2e22e096C8383914C3848adBE70A7",
+      "chainId": 7364,
+      "decimals": 18,
+      "logoURI": "/images/tokens/7364/0x82572A0b69D2e22e096C8383914C3848adBE70A7.png"
+    }
+  ]
+}
