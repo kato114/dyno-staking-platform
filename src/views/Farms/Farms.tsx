@@ -12,6 +12,7 @@ import Table from './components/FarmTable/FarmTable'
 import NFTCard from './components/NFTCard/NFTCard'
 import { FarmWithStakedValue } from './components/types'
 import SwapModal from './components/SwapModal'
+import Footer from '../Footer'
 
 const FarmFlexWrapper = styled(Flex)`
   flex-direction: column;
@@ -130,6 +131,7 @@ const Farms: React.FC<React.PropsWithChildren> = () => {
           </Flex>
         </FarmFlexWrapper>
       </Page>
+      <Footer />
     </FarmsContext.Provider>
   )
 }

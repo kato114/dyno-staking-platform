@@ -11,6 +11,7 @@ import MintModal from './Modal/MintModal'
 import HarvestModal from './Modal/HarvestModal'
 import StakedModal from './Modal/StakedModal'
 import SelectNFTModal from './Modal/SelectNFTModal'
+import Footer from '../Footer'
 
 const FlexBetween = styled.div`
   display: flex;
@@ -23,7 +24,6 @@ const NFTDetailConntainer = styled.div`
   max-width: 1120px;
   margin: 0 auto;
   padding-top: 20px;
-  padding-bottom: 120px;
   color: #fff;
 
   h1 {
@@ -471,6 +471,7 @@ export default function NFTDetail(props) {
           </NFTAction>
         </Flex>
       </NFTDetailConntainer>
+      <Footer />
     </>
   )
 }
