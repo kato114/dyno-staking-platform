@@ -59,7 +59,7 @@ const deserializeFarm = (farm: SerializedFarm): DeserializedFarm => {
       auctionHostingEndDate.getTime() > now
     )
 
-  const numberRewardPerBlock = parseInt(rewardPerBlock, 10);
+  const numberRewardPerBlock = parseInt(rewardPerBlock, 10)
 
   return {
     lpAddress,

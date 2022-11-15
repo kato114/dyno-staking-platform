@@ -25,33 +25,6 @@ import { chains } from 'utils/wagmi'
 import { useNetwork } from 'wagmi'
 import { ChainLogo } from './Logo/ChainLogo'
 
-const NetworkSelect = ({ switchNetwork, chainId }) => {
-  const { t } = useTranslation()
-
-  return (
-    <>
-      <Box px="16px" py="8px">
-        <Text color="textSubtle">{t('Select a Network')}</Text>
-      </Box>
-      <UserMenuDivider />
-      {chains
-        .filter((chain) => !chain.testnet || chain.id === chainId)
-        .map((chain) => (
-          <UserMenuItem
-            key={chain.id}
-            style={{ justifyContent: 'flex-start' }}
-            onClick={() => chain.id !== chainId && switchNetwork(chain.id)}
-          >
-            <ChainLogo chainId={chain.id} />
-            <Text color={chain.id === chainId ? 'secondary' : 'text'} bold={chain.id === chainId} pl="12px">
-              {chain.name}
-            </Text>
-          </UserMenuItem>
-        ))}
-    </>
-  )
-}
-
 const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
@@ -126,7 +99,7 @@ export const NetworkSwitcher = () => {
     { placement: 'auto' },
   )
 
-  const cannotChangeNetwork = !canSwitch
+  const cannotChangeNetwork = false
 
   if (!chainId || (!account && router.pathname.includes('info'))) {
     return null
@@ -156,13 +129,7 @@ export const NetworkSwitcher = () => {
           )
         }
       >
-        {() =>
-          isNotMatched ? (
-            <WrongNetworkSelect switchNetwork={switchNetworkAsync} chainId={chainId} />
-          ) : (
-            <NetworkSelect switchNetwork={switchNetworkAsync} chainId={chainId} />
-          )
-        }
+        {() => isNotMatched && <WrongNetworkSelect switchNetwork={switchNetworkAsync} chainId={chainId} />}
       </UserMenu>
     </Box>
   )
