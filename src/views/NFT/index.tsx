@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import styled from 'styled-components'
-import { Heading, Text, Button, Flex, LinkExternal, useModal } from '@pancakeswap/uikit'
+import { Heading, Text, Button, Flex, LinkExternal, useToast, useModal } from '@pancakeswap/uikit'
 import { dyno } from '@pancakeswap/wagmi/chains'
 import axios from 'axios'
 import { ChevronDownIcon } from '@pancakeswap/uikit'
@@ -200,6 +200,7 @@ const StyledClick = styled.span`
 
 export default function NFTDetail(props) {
   const { account } = useActiveWeb3React()
+  const { toastWarning } = useToast()
   const PRECISION = 1000000
   const { nft_id } = props
 
@@ -334,7 +335,32 @@ export default function NFTDetail(props) {
 
   const [onShowNFTSelectHandler] = useModal(<SelectNFTModal id={nft_id} img={nftDetail.image} name={nftDetail.name} />)
 
-  const [onPresentSwap] = useModal(<SwapModal />)
+  const [onPresentSwapHandler] = useModal(<SwapModal />)
+
+  const handleMintModal = () => {
+    if (account === null) toastWarning('Please connect wallet!')
+    else onMintModalHandler()
+  }
+
+  const handleHarvestModal = () => {
+    if (account === null) toastWarning('Please connect wallet!')
+    else onHarvestModalHandler()
+  }
+
+  const handleShowStakedNFT = () => {
+    if (account === null) toastWarning('Please connect wallet!')
+    else onShowStakedNFTHandler()
+  }
+
+  const handleShowNFTSelect = () => {
+    if (account === null) toastWarning('Please connect wallet!')
+    else onShowNFTSelectHandler()
+  }
+
+  const handlePresentSwap = () => {
+    if (account === null) toastWarning('Please connect wallet!')
+    else onPresentSwapHandler()
+  }
 
   return (
     <>
@@ -394,14 +420,14 @@ export default function NFTDetail(props) {
             </PriceContainer>
 
             <ActionButtons>
-              <Button width={220} height={50} style={{ maxWidth: '45%' }} onClick={(e) => onMintModalHandler()}>
+              <Button width={220} height={50} style={{ maxWidth: '45%' }} onClick={(e) => handleMintModal()}>
                 Mint artwork
               </Button>
               <Button
                 width={220}
                 height={50}
                 style={{ maxWidth: '45%' }}
-                onClick={(e) => onShowNFTSelectHandler()}
+                onClick={(e) => handleShowNFTSelect()}
                 disabled={getOwnedNFT() == null}
               >
                 Farm NFT
@@ -410,7 +436,7 @@ export default function NFTDetail(props) {
 
             <Flex justifyContent="left" m="15px">
               <Heading as="h6" style={{ fontStyle: 'italic' }}>
-                Do you want to buy WDND? <StyledClick onClick={onPresentSwap}> Click Here </StyledClick>
+                Do you want to buy WDND? <StyledClick onClick={(e) => handlePresentSwap()}> Click Here </StyledClick>
               </Heading>
             </Flex>
           </DescriptionContainer>
@@ -459,7 +485,7 @@ export default function NFTDetail(props) {
                 </StyledLinkExternal>
               </div>
               <div>
-                <Button onClick={(e) => onShowStakedNFTHandler()}>+</Button>
+                <Button onClick={(e) => handleShowStakedNFT()}>+</Button>
               </div>
             </ActionContainer>
 
@@ -471,7 +497,7 @@ export default function NFTDetail(props) {
                 </Text>
               </div>
               <div>
-                <Button onClick={(e) => onHarvestModalHandler()}>Harvest</Button>
+                <Button onClick={(e) => handleHarvestModal()}>Harvest</Button>
               </div>
             </ActionContainer>
 

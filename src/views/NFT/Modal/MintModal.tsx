@@ -30,7 +30,8 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
   const { theme } = useTheme()
 
   const { mintPrice, allowance } = useNFTContract({ id })
-  const numberAllowance = Number(allowance[0].toString())
+  const numberAllowance = allowance === undefined ? 0 : Number(allowance[0].toString())
+
   const mintType = true
 
   const nftContract = useContract(NftContractInfo.address, NftContractInfo.abi, true)
@@ -51,7 +52,7 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
     onConfirm: () => {
       return nftContract.mint(mintAmount, id, {
         gasLimit: 500000,
-        value: parseUnits((mintPrice * mintAmount).toString(), 18),
+        value: 0,
       })
     },
     onSuccess: ({ receipt }) => {
