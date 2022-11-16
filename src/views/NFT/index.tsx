@@ -358,7 +358,7 @@ export default function NFTDetail(props) {
                 </Heading>
                 <Flex flexDirection="column" alignItems="end">
                   <Heading as="h4" textAlign="right">
-                    {mintPrice} DND
+                    {mintPrice} WDND
                   </Heading>
                   <Heading as="h6" textAlign="right" style={{ fontStyle: 'italic', color: 'gray' }}>
                     ${(dndPriceUSD * mintPrice).toFixed(3)}
