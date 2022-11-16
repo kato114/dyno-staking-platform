@@ -30,6 +30,7 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
   const { theme } = useTheme()
 
   const { mintPrice, allowance } = useNFTContract({ id })
+  const numberAllowance = Number(allowance[0].toString())
   const mintType = true
 
   const nftContract = useContract(NftContractInfo.address, NftContractInfo.abi, true)
@@ -70,7 +71,7 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
 
   return (
     <StyledModal title={'Mint NFT'} onDismiss={onDismiss} headerBackground={theme.colors.gradientCardHeader}>
-      {allowance === 0 && (
+      {numberAllowance === 0 && (
         <ApproveAndConfirmStage
           variant="Mint"
           handleApprove={handleApprove}
@@ -82,7 +83,7 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
           setMint={setMintAmount}
         />
       )}
-      {allowance !== 0 && (
+      {numberAllowance !== 0 && (
         <ConfirmStage
           isConfirming={isConfirming}
           handleConfirm={handleMint}

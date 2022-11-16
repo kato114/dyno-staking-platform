@@ -58,7 +58,10 @@ export const useStakingContract = ({ id } = { id: 1 }): any => {
   const endTime = rawEndTime ? rawEndTime : 0
   const leftPoolTime = rawLeftPoolTime ? rawLeftPoolTime : 0
 
-  return useMemo(() => ({ rewardPrice, pendingReward, stakedNftIDs, endTime, leftPoolTime }), [rewardPrice, account])
+  return useMemo(
+    () => ({ rewardPrice, pendingReward, stakedNftIDs, endTime, leftPoolTime }),
+    [rewardPrice, account, Date.now()],
+  )
 }
 
 export const useRewardPercent = ({ id } = { id: 1 }): any => {

@@ -22,17 +22,15 @@ const StyledModal = styled(Modal)`
 interface FarmModalProps extends InjectedModalProps {
   id: number
   mintId: string
+  setStatus?: (number) => void
 }
 
 // NFT WBNB in testnet contract is different
 const TESTNET_WBNB_NFT_ADDRESS = '0x094616f0bdfb0b526bd735bf66eca0ad254ca81f'
 
-const FarmModal: React.FC<React.PropsWithChildren<FarmModalProps>> = ({ id, mintId, onDismiss }) => {
+const FarmModal: React.FC<React.PropsWithChildren<FarmModalProps>> = ({ id, mintId, setStatus, onDismiss }) => {
   const { address: account } = useAccount()
   const { theme } = useTheme()
-  const { t } = useTranslation()
-  const PRECISION = 1000000
-
   const { toastSuccess } = useToast()
 
   const nftContract = useContract(NftContractInfo.address, NftContractInfo.abi, true)
@@ -40,7 +38,7 @@ const FarmModal: React.FC<React.PropsWithChildren<FarmModalProps>> = ({ id, mint
 
   //   const id = 1;
 
-  const { mintPrice, tokensOfHolder, isApprovedForAll } = useNFTContract({ id })
+  const { isApprovedForAll } = useNFTContract({ id })
 
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
@@ -54,6 +52,7 @@ const FarmModal: React.FC<React.PropsWithChildren<FarmModalProps>> = ({ id, mint
         'Contract approved - you can now stake NFT!',
         <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
       )
+      setStatus(Date.now())
     },
     onConfirm: async () => {
       return stakingContract.deposit(mintId, account, { gasLimit: 500000 })

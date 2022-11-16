@@ -29,8 +29,6 @@ const ApproveAndConfirmStage: React.FC<React.PropsWithChildren<ApproveAndConfirm
 }) => {
   const { t } = useTranslation()
 
-  console.log('--->>>', isApproving)
-
   return (
     <Flex p="16px" flexDirection="column">
       <Flex mb="8px" alignItems="center">

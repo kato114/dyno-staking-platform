@@ -12,6 +12,7 @@ import HarvestModal from './Modal/HarvestModal'
 import StakedModal from './Modal/StakedModal'
 import SelectNFTModal from './Modal/SelectNFTModal'
 import Footer from '../Footer'
+import SwapModal from '../Farms/components/SwapModal'
 
 const FlexBetween = styled.div`
   display: flex;
@@ -89,7 +90,7 @@ const PriceContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   margin-top: 44px !important;
-  margin-bottom: 64px !important;
+  margin-bottom: 30px !important;
   gap: 20px;
 `
 
@@ -100,7 +101,7 @@ const ActionButtons = styled.div`
   flex-flow: row wrap;
   width: 100%;
 
-  margin-top: 30px !important;
+  margin-top: 10px !important;
 `
 
 const NFTDetailInfo = styled.div`
@@ -177,6 +178,26 @@ const DropDetailDescription = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.backgroundAlt};
 `
 
+const StyledClick = styled.span`
+  @keyframes color-animation {
+    0% {
+      color: white;
+    }
+    50% {
+      color: #48bf53;
+    }
+    100% {
+      color: white;
+    }
+  }
+
+  cursor: pointer;
+  color: red;
+  animation-name: color-animation;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+`
+
 export default function NFTDetail(props) {
   const { account } = useActiveWeb3React()
   const PRECISION = 1000000
@@ -224,10 +245,6 @@ export default function NFTDetail(props) {
       getMoviesFromApiAsync(NFTDataJson)
     }
   }, [NFTDataJson])
-
-  // useEffect(() => {
-  //   { stakedNftIDs } = useStakingContract({ id: nft_id })
-  // }, [account])
 
   // ----------------------------get Contract end--------------------------------
 
@@ -317,6 +334,8 @@ export default function NFTDetail(props) {
 
   const [onShowNFTSelectHandler] = useModal(<SelectNFTModal id={nft_id} img={nftDetail.image} name={nftDetail.name} />)
 
+  const [onPresentSwap] = useModal(<SwapModal />)
+
   return (
     <>
       <NFTDetailConntainer>
@@ -388,6 +407,12 @@ export default function NFTDetail(props) {
                 Farm NFT
               </Button>
             </ActionButtons>
+
+            <Flex justifyContent="left" m="15px">
+              <Heading as="h6" style={{ fontStyle: 'italic' }}>
+                Do you want to buy WDND? <StyledClick onClick={onPresentSwap}> Click Here </StyledClick>
+              </Heading>
+            </Flex>
           </DescriptionContainer>
         </NFTMainDetail>
 
