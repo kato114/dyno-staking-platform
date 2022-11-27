@@ -129,7 +129,7 @@ const Row: React.FunctionComponent<React.PropsWithChildren<RowPropsWithLoading>>
                   <td key={key}>
                     <CellInner>
                       <CellLayout label={t('Vesting')}>
-                        {isNaN(props.vesting.vesting) ? 'None' : props.vesting.vesting / 3600 + 'Hours'}
+                        {isNaN(props.vesting.vesting) ? 'None' : props.vesting.vesting / 3600 / 24 + ' Days'}
                       </CellLayout>
                     </CellInner>
                   </td>

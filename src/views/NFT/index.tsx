@@ -286,7 +286,7 @@ export default function NFTDetail(props) {
       data: (
         <DropDetailDescription>
           <Flex style={{ fontSize: '20px', alignItems: 'center' }}>
-            <img src="/images/chains/7364.png" />
+            <img src="/images/chains/7363.png" />
             <p style={{ marginLeft: '16px' }}>Dyno</p>
           </Flex>
         </DropDetailDescription>
@@ -384,7 +384,7 @@ export default function NFTDetail(props) {
                 </Heading>
                 <Flex flexDirection="column" alignItems="end">
                   <Heading as="h4" textAlign="right">
-                    {mintPrice} WDND
+                    {mintPrice} DND
                   </Heading>
                   <Heading as="h6" textAlign="right" style={{ fontStyle: 'italic', color: 'gray' }}>
                     ${(dndPriceUSD * mintPrice).toFixed(3)}

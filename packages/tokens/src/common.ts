@@ -2,7 +2,7 @@ import { ChainId, Token } from '@pancakeswap/sdk'
 
 export const USDT_DYNO = new Token(
   ChainId.DYNO,
-  '0xd90656E356eD222c8B70a84cFCd5F9b2C6218CE0',
+  '0xd90656e356ed222c8b70a84cfcd5f9b2c6218ce0',
   18,
   'USDT',
   'Tether USD',
@@ -11,7 +11,7 @@ export const USDT_DYNO = new Token(
 
 export const DUSD_DYNO = new Token(
   ChainId.DYNO,
-  '0xBE3735517eB0C286E581A54f802D1218cFE781fD',
+  '0x78baf24928fc4cf9b77ffe2902910e58c67578b4',
   18,
   'DUSD',
   'Dyno USD',

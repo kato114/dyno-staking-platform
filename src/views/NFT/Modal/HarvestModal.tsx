@@ -40,7 +40,7 @@ const HarvestModal: React.FC<React.PropsWithChildren<HarvestModalProps>> = ({ id
     },
     onApproveSuccess: async ({ receipt }) => {
       toastSuccess(
-        'Contract approved - you can now buy NFT with WDND!',
+        'Contract approved - you can now buy NFT with DND!',
         <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
       )
     },

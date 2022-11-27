@@ -30,7 +30,7 @@ export const useNFTContract = ({ id } = { id: 1 }): any => {
     StakingContractInfo.address[Number(id)],
   ]).result
 
-  const mintPrice = NftInfo ? Number(formatUnits(NftInfo[4].toString())) : 0
+  const mintPrice = NftInfo ? Number(formatUnits(NftInfo[3].toString())) : 0
   const maxMintAmount = NftInfo ? Number(NftInfo[1].toString()) : 0
   const curMintAmount = NftInfo ? Number(NftInfo[2].toString()) : 0
   const isApprovedForAll = ApprovedForAll ? ApprovedForAll[0] : false

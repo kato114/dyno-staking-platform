@@ -52,7 +52,7 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
     onConfirm: () => {
       return nftContract.mint(mintAmount, id, {
         gasLimit: 500000,
-        value: 0,
+        value: (mintPrice * mintAmount * 10 ** 18).toString(),
       })
     },
     onSuccess: ({ receipt }) => {
@@ -72,7 +72,7 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
 
   return (
     <StyledModal title={'Mint NFT'} onDismiss={onDismiss} headerBackground={theme.colors.gradientCardHeader}>
-      {numberAllowance === 0 && (
+      {/* {numberAllowance === 0 && (
         <ApproveAndConfirmStage
           variant="Mint"
           handleApprove={handleApprove}
@@ -84,15 +84,15 @@ const MintModal: React.FC<React.PropsWithChildren<MintModalProps>> = ({ id, onDi
           setMint={setMintAmount}
         />
       )}
-      {numberAllowance !== 0 && (
-        <ConfirmStage
-          isConfirming={isConfirming}
-          handleConfirm={handleMint}
-          mintAmount={mintAmount}
-          setMint={setMintAmount}
-          mintType={mintType}
-        />
-      )}
+      {numberAllowance !== 0 && ( */}
+      <ConfirmStage
+        isConfirming={isConfirming}
+        handleConfirm={handleMint}
+        mintAmount={mintAmount}
+        setMint={setMintAmount}
+        mintType={mintType}
+      />
+      {/* )} */}
     </StyledModal>
   )
 }

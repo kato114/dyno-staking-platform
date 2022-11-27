@@ -29,7 +29,7 @@ export default function SwapForm({ onDismiss }) {
   // swap state & price data
   const { independentField, typedValue, recipient } = useSwapState()
   const inputCurrency = useCurrency('DND')
-  const outputCurrency = useCurrency('0xB2cD91b79df296ea181AA5f6d729E5136e1853A4')
+  const outputCurrency = useCurrency('0x18A01F49413FF142397B665213254729186d158f')
 
   const currencies: { [field in Field]?: Currency } = useMemo(
     () => ({

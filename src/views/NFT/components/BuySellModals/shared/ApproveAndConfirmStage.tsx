@@ -48,7 +48,7 @@ const ApproveAndConfirmStage: React.FC<React.PropsWithChildren<ApproveAndConfirm
               {variant === 'buy' && t('Please enable WBNB spending in your wallet.')}
               {variant === 'sell' && t('Please enable your NFT to be sent to the market.')}
 
-              {variant === 'Mint' && t('Please enable WDND sending in your wallet.')}
+              {variant === 'Mint' && t('Please enable DND sending in your wallet.')}
               {variant === 'Farm' && t('Please enable your NFT to farm.')}
             </Text>
           )}

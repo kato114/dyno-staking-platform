@@ -5,7 +5,7 @@ import { Token } from './entities/token'
 export type BigintIsh = JSBI | number | string
 
 export enum ChainId {
-  DYNO = 7364,
+  DYNO = 7363,
 }
 
 export enum TradeType {
@@ -19,9 +19,9 @@ export enum Rounding {
   ROUND_UP,
 }
 
-export const FACTORY_ADDRESS = '0x91A46Fbf7D7a41f296457c937C782113078700b0'
+export const FACTORY_ADDRESS = '0xB2cD91b79df296ea181AA5f6d729E5136e1853A4'
 export const FACTORY_ADDRESS_MAP: Record<number, string> = {
-  [ChainId.DYNO]: '0x91A46Fbf7D7a41f296457c937C782113078700b0',
+  [ChainId.DYNO]: '0xB2cD91b79df296ea181AA5f6d729E5136e1853A4',
 }
 export const INIT_CODE_HASH = '0xb9d8a4cb1b1b40df96d32b6254d6766358613f5797700f374caf1e67fb8b1c54'
 export const INIT_CODE_HASH_MAP: Record<number, string> = {
@@ -56,7 +56,7 @@ export const SOLIDITY_TYPE_MAXIMA = {
 export const WDND = {
   [ChainId.DYNO]: new Token(
     ChainId.DYNO,
-    '0xB2cD91b79df296ea181AA5f6d729E5136e1853A4',
+    '0x18A01F49413FF142397B665213254729186d158f',
     18,
     'WDND',
     'Wrapped DND',

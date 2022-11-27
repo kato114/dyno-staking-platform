@@ -1,23 +1,23 @@
 import { Chain } from 'wagmi'
 
 export const dyno: Chain = {
-  id: 7364,
-  name: 'Dyno Chain Testnet',
-  network: 'dyno-testnet',
+  id: 7363,
+  name: 'Dyno Chain',
+  network: 'dyno',
   nativeCurrency: {
     decimals: 18,
     name: 'Dyno Chain Native Token',
     symbol: 'DND',
   },
   rpcUrls: {
-    public: 'https://rpctest.dynochain.io/',
-    default: 'https://rpctest.dynochain.io/',
+    public: 'https://rpc.dynochain.io/',
+    default: 'https://rpc.dynochain.io/',
   },
   blockExplorers: {
-    default: { name: 'DynoScan', url: 'https://testnet.dynoscan.io/' },
+    default: { name: 'DynoScan', url: 'https://dynoscan.io/' },
   },
   multicall: {
-    address: '0xFB2aAb966943d4e88CA0d1533c949a4849deBD12',
+    address: '0x977C2eFba2d547AeF7B10e95A34fd33C1BbDECe6',
     blockCreated: 670512,
   },
   testnet: false,

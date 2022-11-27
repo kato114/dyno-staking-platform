@@ -6,7 +6,6 @@ import multicallAbi from './Multicall.json'
 
 export const multicallAddresses = {
   7363: '0x977C2eFba2d547AeF7B10e95A34fd33C1BbDECe6',
-  7364: '0xFB2aAb966943d4e88CA0d1533c949a4849deBD12',
 }
 
 export const getMulticallContract = (chainId: ChainId, provider) => {
