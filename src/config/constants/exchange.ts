@@ -4,7 +4,7 @@ import { USDT, DUSD } from '@pancakeswap/tokens'
 import { ChainMap, ChainTokenList } from './types'
 
 export const ROUTER_ADDRESS: ChainMap<string> = {
-  [ChainId.DYNO]: '0xaBC2a8378cc089081102DDA9746b6D0a3Cb61BFB',
+  [ChainId.DYNO]: '0x91A46Fbf7D7a41f296457c937C782113078700b0',
 }
 
 // used to construct intermediary pairs for trading

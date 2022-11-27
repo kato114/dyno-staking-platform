@@ -130,6 +130,7 @@ export const getLpTokenPrice = (
   let lpTokenPrice = FIXED_ZERO
   const lpTotalSupplyAsBigNumber = BigNumber.from(lpTotalSupply)
   const lpTotalInQuoteTokenBigNumber = BigNumber.from(lpTotalInQuoteToken)
+
   if (lpTotalSupplyAsBigNumber.gt(0) && lpTotalInQuoteTokenBigNumber.gt(0)) {
     // Total value of base token in LP
     const valueOfBaseTokenInFarm = tokenPriceBusd.mulUnsafe(tokenAmountTotal)
@@ -154,10 +155,12 @@ export const getFarmsPrices = (farms: FarmData[], chainId: number): FarmWithPric
   }
 
   const nativeStableFarm = farms.find((farm) => equalsIgnoreCase(farm.lpAddress, nativeStableLpMap[chainId].address))
+
   const nativePriceUSD =
     !isNaN(_toNumber(nativeStableFarm?.tokenPriceVsQuote)) && _toNumber(nativeStableFarm?.tokenPriceVsQuote) !== 0
       ? FIXED_ONE.divUnsafe(FixedNumber.from(nativeStableFarm.tokenPriceVsQuote))
       : FIXED_ZERO
+
   const farmsWithPrices = farms.map((farm) => {
     const quoteTokenFarm = getFarmFromTokenAddress(farms, farm.quoteToken.address, [
       nativeStableLpMap[chainId].wNative,
@@ -203,7 +206,7 @@ export const getFarmsPrices = (farms: FarmData[], chainId: number): FarmWithPric
 
 const nativeStableLpMap = {
   [ChainId.DYNO]: {
-    address: '0xB37690BD5811A1C924cd1cAff6dA980DcC3dbE85',
+    address: '0x403e084c4A4314675c0f3FD5130523772bc8b3b5',
     wNative: 'WDND',
     stable: 'DUSD',
   },
