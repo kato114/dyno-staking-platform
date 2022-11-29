@@ -33,7 +33,7 @@ const config = {
     styledComponents: true,
   },
   experimental: {
-    scrollRestoration: true,
+    // scrollRestoration: true,
     images: {
       unoptimized: true,
     },
@@ -44,6 +44,7 @@ const config = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -99,8 +100,7 @@ const config = {
     ]
   },
   async redirects() {
-    return [
-    ]
+    return []
   },
   webpack: (webpackConfig, { webpack }) => {
     // tree shake sentry tracing

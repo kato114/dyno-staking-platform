@@ -77,7 +77,7 @@ const Row: React.FunctionComponent<React.PropsWithChildren<RowPropsWithLoading>>
   const [actionPanelExpanded, setActionPanelExpanded] = useState(hasStakedAmount)
   const shouldRenderChild = useDelayedUnmount(actionPanelExpanded, 300)
   const { t } = useTranslation()
-
+  console.log('kato farm', props)
   const toggleActionPanel = () => {
     setActionPanelExpanded(!actionPanelExpanded)
   }

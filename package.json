@@ -10,7 +10,7 @@
   "scripts": {
     "analyze": "ANALYZE=true yarn build",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start -p 80",
     "test": "LC_ALL=\"en_US.UTF-8\" jest && yarn turbo run test",
     "test:watch": "LC_ALL=\"en_US.UTF-8\" jest --watch",

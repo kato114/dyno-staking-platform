@@ -6,8 +6,6 @@ export const getFarmsPriceHelperLpFiles = (chainId: ChainId) => {
   switch (chainId) {
     case ChainId.DYNO:
       return FarmsDynoMainnetPriceHelper
-    case ChainId.DYNO_TESTNET:
-      return FarmsDynoTestnetPriceHelper
     default:
       return []
   }
