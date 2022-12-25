@@ -175,6 +175,7 @@ const Row: React.FunctionComponent<React.PropsWithChildren<RowPropsWithLoading>>
                   hideButton
                   strikethrough={props?.details?.boosted}
                   boosted={props?.details?.boosted}
+                  originalValue={props?.details?.rewardsApy}
                 />
               </CellLayout>
             </MobileDivCell>
